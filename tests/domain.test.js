@@ -1,7 +1,19 @@
 import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { canEdit, canSubmit, validateFile, safeUrl } from '../src/domain.js'
+import { auditObject, auditAction, auditDetails } from '../src/services/audit-format.js'
 const depositor={id:1,is_active:true,roles:['depositante']}
+test('auditoría presenta roles y objetos sin JSON ni nombres internos',()=>{
+  assert.equal(auditObject({auditable_type:'App\\Models\\User',auditable_id:8}),'Usuario #8')
+  assert.equal(auditAction('usuario.creado'),'Usuario creado')
+  assert.deepEqual(auditDetails({roles:['gestor']}),[{label:'Roles asignados',value:'Gestor'}])
+  assert.deepEqual(auditDetails({fields:['name','is_active'],before:{name:'Alexis',is_active:false}}),[
+    {label:'Campos modificados',value:'Nombre, Cuenta activa'},
+    {label:'Valores anteriores',value:'Nombre: Alexis; Cuenta activa: No'},
+  ])
+  assert.deepEqual(auditDetails({}),[])
+  assert.equal(auditAction('recurso.enviado_a_revision'),'Recurso enviado a revisión')
+})
 test('un depositante solo edita sus borradores u observados',()=>{
   assert.equal(canEdit(depositor,{owner_id:1,status:'borrador'}),true)
   assert.equal(canEdit(depositor,{owner_id:2,status:'borrador'}),false)
