@@ -1,0 +1,4 @@
+<script setup>
+defineProps({ title: String, subtitle: String })
+</script>
+<template><header class="page-heading"><h1>{{ title }}</h1><p v-if="subtitle">{{ subtitle }}</p><slot /></header></template>

@@ -1,0 +1,10 @@
+services:
+  frontend:
+    build:
+      context: .
+      args:
+        VITE_API_URL: ${VITE_API_URL:-https://sricu-uls-api.onrender.com/api}
+        VITE_MAX_UPLOAD_MB: ${VITE_MAX_UPLOAD_MB:-20}
+    ports:
+      - "8080:80"
+    restart: unless-stopped
