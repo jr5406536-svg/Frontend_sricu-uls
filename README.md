@@ -109,3 +109,4 @@ docs/            Contrato OpenAPI y decisiones de integración
 
 `node_modules`, `dist`, `.env` y resultados de pruebas están excluidos mediante `.gitignore`. Subir código fuente, `package-lock.json`, documentación y configuración. No se han creado commits ni se ha subido el proyecto a ningún repositorio remoto.
 # Frontend_sricu-uls
+# Frontend_sricu-uls
