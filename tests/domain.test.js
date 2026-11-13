@@ -2,6 +2,29 @@ import { test } from 'node:test'
 import assert from 'node:assert/strict'
 import { canEdit, canSubmit, validateFile, safeUrl } from '../src/domain.js'
 import { auditObject, auditAction, auditDetails } from '../src/services/audit-format.js'
+import { fetchTablePage, paginateRows } from '../src/services/pagination.js'
+test('listas completas se paginan de diez y reajustan una página eliminada',()=>{
+  const rows=Array.from({length:23},(_,i)=>i+1)
+  assert.deepEqual(paginateRows(rows,2).items,[11,12,13,14,15,16,17,18,19,20])
+  assert.deepEqual(paginateRows(rows,9),{items:[21,22,23],page:3,last:3,total:23})
+  assert.deepEqual(paginateRows([],2),{items:[],page:1,last:1,total:0})
+})
+test('paginación adapta un servidor fijo de veinte sin saltar usuarios',async()=>{
+  const rows=Array.from({length:43},(_,i)=>i+1)
+  const fetchPage=async page=>({data:rows.slice((page-1)*20,page*20),meta:{current_page:page,per_page:20,total:43}})
+  const visible=[]
+  for(let page=1;page<=5;page++){
+    const result=await fetchTablePage(fetchPage,page)
+    assert.ok(result.items.length<=10)
+    visible.push(...result.items)
+  }
+  assert.deepEqual(visible,rows)
+})
+test('paginación conserva diez filas aunque cruce páginas del servidor',async()=>{
+  const rows=Array.from({length:30},(_,i)=>i)
+  const result=await fetchTablePage(async page=>({data:rows.slice((page-1)*7,page*7),meta:{current_page:page,per_page:7,total:30}}),2)
+  assert.deepEqual(result.items,rows.slice(10,20))
+})
 const depositor={id:1,is_active:true,roles:['depositante']}
 test('auditoría presenta roles y objetos sin JSON ni nombres internos',()=>{
   assert.equal(auditObject({auditable_type:'App\\Models\\User',auditable_id:8}),'Usuario #8')
