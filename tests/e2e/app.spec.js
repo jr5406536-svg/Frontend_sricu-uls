@@ -13,7 +13,6 @@ async function mock(page,{role='depositante',failed=false}={}){
     if(path==='resources')return route.fulfill({json:paged([resource])})
     if(path==='resources/1/submit')return route.fulfill({json:{data:{...resource,status:'revision'}}})
     if(path==='resources/1')return route.fulfill({json:{data:{...resource,status:'borrador'}}})
-    if(path==='resources/semantic')return route.fulfill({json:{enabled:false,data:[],message:'La búsqueda semántica no está habilitada.'}})
     const catalogs={collections:[{id:1,name:'Trabajos de graduación',description:'Documentos autorizados.',published_count:1}],categories:[{id:1,name:'Investigación'}],authors:[{id:1,name:'Autora de prueba'}],keywords:[{id:1,name:'Educación'}],licenses:[{id:1,name:'CC BY 4.0',allows_download:true}]}
     if(catalogs[path])return route.fulfill({json:{data:catalogs[path]}})
     if(path==='stats')return route.fulfill({json:{from:'2026-10-01',to:'2026-10-31',resources_created:2,published:1,views:5,downloads:1,searches:3,by_status:{borrador:1,publicado:1},by_type:{documento:2}}})

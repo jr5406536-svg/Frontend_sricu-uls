@@ -36,7 +36,7 @@ VITE_MAX_UPLOAD_MB=20
 - Estados de carga, fallos de conexión, validaciones de Laravel, ausencia de resultados y confirmación de operaciones destructivas.
 - Diseño adaptable a escritorio y móvil, navegación con teclado, etiquetas e iconos Material Icons servidos localmente.
 
-La búsqueda semántica consulta el endpoint opcional y muestra su disponibilidad real. El backend actual no devuelve recomendaciones calculadas; el frontend no simula resultados.
+La interfaz utiliza búsqueda por texto y filtros. La opción de búsqueda semántica fue retirada del frontend; el endpoint opcional del backend permanece sin cambios.
 
 ## Roles y rutas
 
