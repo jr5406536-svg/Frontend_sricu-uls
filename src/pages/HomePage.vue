@@ -5,8 +5,6 @@ import { api, errorMessage } from '../services/api'
 import AsyncState from '../components/AsyncState.vue'
 import ResourceCard from '../components/ResourceCard.vue'
 const router = useRouter(), query = ref(''), recent = ref([]), loading = ref(true), error = ref('')
-// Aviso temporal para las pruebas del equipo. Retirar junto con el q-dialog.
-const showTeamMessage = ref(true)
 const communities = [
   { title:'Facultades y carreras', description:'Producción académica organizada por área.', label:'Explorar colecciones', path:'/comunidades' },
   { title:'Investigación', description:'Artículos, informes y producción científica.', label:'Consultar recursos', path:'/explorar?type=documento' },
@@ -17,18 +15,6 @@ function search() { router.push({path:'/explorar',query:query.value.trim()?{q:qu
 onMounted(load)
 </script>
 <template>
-  <q-dialog v-model="showTeamMessage">
-    <q-card class="team-message">
-      <q-card-section class="row items-center q-pb-sm">
-        <q-icon name="chat_bubble_outline" color="primary" size="26px" class="q-mr-sm" />
-        <h2 class="team-message-title">Mensaje para el equipo</h2>
-        <q-space />
-        <q-btn flat round dense icon="close" aria-label="Cerrar mensaje" v-close-popup />
-      </q-card-section>
-      <q-card-section class="q-pt-sm"><p class="team-message-copy">Hace las pruebas chele y me avisas</p></q-card-section>
-      <q-card-actions align="right" class="q-px-lg q-pb-lg"><q-btn unelevated color="primary" label="¡Entendido!" v-close-popup /></q-card-actions>
-    </q-card>
-  </q-dialog>
   <section class="welcome-hero" aria-labelledby="welcome-title">
     <div class="welcome-copy">
       <img class="welcome-logo" src="/images/uls-logo.png" alt="Universidad Luterana Salvadoreña" width="1771" height="798" />
@@ -51,9 +37,6 @@ onMounted(load)
 </template>
 
 <style scoped>
-.team-message{width:440px;max-width:calc(100vw - 32px);border-radius:16px;padding:8px}
-.team-message-title{font-size:18px;margin:0}
-.team-message-copy{font-size:20px;line-height:1.5;margin:8px 0;color:#173b63}
 .welcome-hero{display:grid;grid-template-columns:1.05fr 1fr;background:#fff;border:1px solid #dce4ed;border-radius:20px;overflow:hidden;margin:12px 0 42px;box-shadow:0 12px 40px rgba(23,59,99,.04)}
 .welcome-copy{padding:34px 36px 32px;min-width:0;align-self:center}
 .welcome-logo{width:204px;height:auto;display:block;margin-bottom:30px}
